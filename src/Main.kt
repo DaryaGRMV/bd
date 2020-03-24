@@ -87,21 +87,40 @@ fun main() {
     }
 
     //Список студенов определенной группы
-    val sc = Scanner(System.`in`)
+    /*val sc = Scanner(System.`in`)
     val group_num = sc.next()
     val sq1 = "SELECT name,surname,patronymic " +
             "FROM `student` " +
             "WHERE group_num='$group_num' " +
             "ORDER BY surname, name, patronymic;"
-    val result = s.executeQuery(sq1)
-    while (result.next()) {
-        print(result.getString("surname"))
+    val result1 = s.executeQuery(sq1)
+    while (result1.next()) {
+        print(result1.getString("surname"))
         print(" ")
-        print(result.getString("name"))
+        print(result1.getString("name"))
         print(" ")
-        print(result.getString("patronymic"))
+        print(result1.getString("patronymic"))
+        println()
+    }*/
+
+    //Вывод среднего балла судента
+    val sq2 = "SELECT student.name, student.surname, student.patronymic, AVG(mark) "+
+            "FROM `student` "+
+            "INNER JOIN `mark` "+
+            "ON student.id=mark.stud_id "+
+            "GROUP BY mark.stud_id;"
+    val result2 = s.executeQuery(sq2)
+    while (result2.next()) {
+        print(result2.getString("surname"))
+        print(" ")
+        print(result2.getString("name"))
+        print(" ")
+        print(result2.getString("patronymic"))
+        print(" ")
+        print(result2.getString("AVG(mark)"))
         println()
     }
+
 }
 
 
