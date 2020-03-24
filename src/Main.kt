@@ -8,7 +8,7 @@ import java.util.*
 
 fun main() {
     val c: Connection = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3306/test?serverTimezone=UTC",
+        "jdbc:mysql://localhost:3306/BD_Students?serverTimezone=UTC",
         "dargr",
         "14011"
     )
@@ -30,6 +30,7 @@ fun main() {
             "birth date not null, " +
             "start_date year not null" +
             ");"
+
     val ct2: String = "create table if not exists `subject` ("+
             "id int auto_increment primary key, "+
             "name varchar(30) not null, "+
@@ -43,14 +44,14 @@ fun main() {
             "stud_id int not null, " +
             "subj_id int not null, " +
             "mark int not null, " +
-            "constraint `stud` foreign key (`stud_id`) references `student` (`id`) , " +
+            "constraint `stud` foreign key (`stud_id`) references `student` (`id`), " +
             "constraint `subj` foreign key (`subj_id`) references `subject` (`id`) " +
             ");"
     s.execute(ct1)
     s.execute(ct2)
     s.execute(ct3)
 
-    val files: List<String> = listOf("student.csv", "subject.csv")
+    val files: List<String> = listOf("student.csv", "subject.csv", "mark.csv")
     for (f: String in files) {
         val br = BufferedReader(
             InputStreamReader(
