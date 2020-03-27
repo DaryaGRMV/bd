@@ -104,7 +104,7 @@ fun main() {
     }*/
 
     //Вывод среднего балла судента
-    val sq2 = "SELECT student.name, student.surname, student.patronymic, AVG(mark) "+
+    /*val sq2 = "SELECT student.name, student.surname, student.patronymic, AVG(mark) "+
             "FROM `student` "+
             "INNER JOIN `mark` "+
             "ON student.id=mark.stud_id "+
@@ -119,21 +119,43 @@ fun main() {
         print(" ")
         print(result2.getString("AVG(mark)"))
         println()
-    }
+    }*/
 
-}
-
-
-    /*var groupNum = Scanner(System.`in`).next()
-    var SQLrequest = "SELECT * FROM `students` WHERE `Student_group` ='$groupNum'"
-    val result = s.executeQuery(SQLrequest)
-    while (result.next()){
-        print(result.getString("SURNAME"))
+    //Вывод сетепендии
+    val sq3 = "Select *, IF(Min_mark<4,'0p',if(Min_mark=4,'2000p','3500p')) as Stip From "+
+            "(SELECT Id, FIO, group_num, MIN(Progress) as Min_mark FROM "+
+            "(select Sid as Id, CONCAT(surname,' ', N,'.', P, '.') as FIO, group_num, Progress, Lastsem, subj_sem "+
+            "from "+
+            "(Select student.id as Sid, student.surname, substring(student.name, 1, 1) as N, "+
+            "substring(student.patronymic, 1, 1) as P,student.group_num, "+
+            "2*(year(now())-student.start_date)-if(month(now())=1,2,if(month(now())>=2 and month(now())<=6,1,0)) "+
+            "as Lastsem from student) "+
+            "as Studsess "+
+            "inner join "+
+            "( select mark.subj_id, mark.stud_id, "+
+            "if(mark.mark<56,2,if(mark.mark<71,3,if(mark.mark<86,4,5))) as Progress, subject.semester as subj_sem "+
+            "from mark "+
+            "inner join subject "+
+            "on subject.id = mark.subj_id) as Stud_marks "+
+            "on Sid=Stud_marks.stud_id) as Final "+
+            "WHERE Lastsem=subj_sem "+
+            "GROUP BY Id) as Fin "+
+            "GROUP BY Id"
+    val result3 = s.executeQuery(sq3)
+    while (result3.next()) {
+        print(result3.getString("Id"))
         print(" ")
-        print(result.getString("NAME"))
+        print(result3.getString("FIO"))
         print(" ")
-        print(result.getString("FATHERNAME"))
+        print(result3.getString("group_num"))
+        print(", ")
+        print("Минимальная оценка: ")
+        print(result3.getString("Min_mark"))
+        print(", ")
+        print("Стипендия: ")
+        print(result3.getString("Stip"))
         println()
     }
-    println()*/
 
+
+}
